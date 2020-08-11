@@ -285,6 +285,18 @@
     "activated_env": "EMSDK_NODE=%installation_dir%/bin/node%.exe%"
   },
   {
+    "id": "node",
+    "version": "12.9.1",
+    "bitness": 64,
+    "arch": "ppc64le",
+    "osx_url": "node-v12.9.1-darwin-ppc64le.tar.gz",
+    "windows_url": "node-v12.9.1-win-ppc64le.zip",
+    "linux_url": "node-v12.9.1-linux-ppc64le.tar.xz",
+    "activated_path": "%installation_dir%/bin",
+    "activated_cfg": "NODE_JS='%installation_dir%/bin/node%.exe%'",
+    "activated_env": "EMSDK_NODE=%installation_dir%/bin/node%.exe%"
+  },
+  {
     "id": "python",
     "version": "2.7.13.1",
     "bitness": 32,

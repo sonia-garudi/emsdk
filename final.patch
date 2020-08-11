@@ -1,0 +1,74 @@
+diff --git a/emsdk.py b/emsdk.py
+index a6ad35d..9138593 100755
+--- a/emsdk.py
++++ b/emsdk.py
+@@ -92,6 +92,8 @@ elif machine.startswith('aarch64') or machine.lower().startswith('arm64'):
+   ARCH = 'aarch64'
+ elif platform.machine().startswith('arm'):
+   ARCH = 'arm'
++elif platform.machine().lower() == 'ppc64le':
++  ARCH= 'ppc64le'
+ else:
+   print("Warning: unknown machine architecture " + machine)
+   print()
+@@ -1384,7 +1386,9 @@ def download_and_unzip(zipfile, dest_dir, download_even_if_exists=False,
+                        filename_prefix='', clobber=True):
+   debug_print('download_and_unzip(zipfile=' + zipfile + ', dest_dir=' + dest_dir + ')')
+ 
+-  url = urljoin(emsdk_packages_url, zipfile)
++ 
++  #url = urljoin(emsdk_packages_url, zipfile)
++  url="https://nodejs.org/dist/v12.9.1/node-v12.9.1-linux-ppc64le.tar.xz"
+   download_target = get_download_target(url, zips_subdir, filename_prefix)
+ 
+   # If the archive was already downloaded, and the directory it would be
+@@ -2006,7 +2010,6 @@ def add_sdk(sdk):
+     raise Exception('Duplicate sdk ' + str(sdk) + '! Existing:\n{' + ', '.join("%s: %s" % item for item in vars(find_sdk(str(sdk))).items()) + '}, New:\n{' + ', '.join("%s: %s" % item for item in vars(sdk).items()) + '}')
+   sdks_map[str(sdk)] = sdk
+ 
+-
+ # N.B. In both tools and sdks list above, we take the convention that the newest
+ # items are at the back of the list (ascending chronological order)
+ 
+@@ -2020,7 +2023,8 @@ def find_sdk(name):
+ 
+ def is_os_64bit():
+   # http://stackoverflow.com/questions/2208828/detect-64bit-os-windows-in-python
+-  return platform.machine().endswith('64')
++  # return platform.machine().endswith('64')
++  return platform.architecture()[0] == "64bit"
+ 
+ 
+ def find_latest_releases_version():
+@@ -2899,7 +2903,7 @@ def main():
+   if cmd == 'list':
+     print('')
+ 
+-    if (LINUX or OSX or WINDOWS) and (ARCH == 'x86' or ARCH == 'x86_64'):
++    if (LINUX or OSX or WINDOWS) and (ARCH == 'x86' or ARCH == 'x86_64' or ARCH == 'ppc64le'):
+       print('The *recommended* precompiled SDK download is %s (%s).' % (find_latest_releases_version(), find_latest_releases_hash()))
+       print()
+       print('To install/activate it, use one of:')
+diff --git a/emsdk_manifest.json b/emsdk_manifest.json
+index a80c57f..cc37b31 100644
+--- a/emsdk_manifest.json
++++ b/emsdk_manifest.json
+@@ -284,6 +284,18 @@
+     "activated_cfg": "NODE_JS='%installation_dir%/bin/node%.exe%'",
+     "activated_env": "EMSDK_NODE=%installation_dir%/bin/node%.exe%"
+   },
++  {
++    "id": "node",
++    "version": "12.9.1",
++    "bitness": 64,
++    "arch": "ppc64le",
++    "osx_url": "node-v12.9.1-darwin-ppc64le.tar.gz",
++    "windows_url": "node-v12.9.1-win-ppc64le.zip",
++    "linux_url": "node-v12.9.1-linux-ppc64le.tar.xz",
++    "activated_path": "%installation_dir%/bin",
++    "activated_cfg": "NODE_JS='%installation_dir%/bin/node%.exe%'",
++    "activated_env": "EMSDK_NODE=%installation_dir%/bin/node%.exe%"
++  },
+   {
+     "id": "python",
+     "version": "2.7.13.1",
