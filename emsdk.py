@@ -1844,7 +1844,7 @@ class Tool(object):
 
   def install(self):
     if self.can_be_installed() is not True:
-      print("The tool '" + str(self) + "' is not available due to the reason: " + self.can_be_installed() + self.bitness == 64 and not is_os_64bit())
+      print("The tool testing " + + self.bitness == 64 and not is_os_64bit() + "'" + str(self) + "' is not available due to the reason: " + self.can_be_installed())
       return False
 
     if self.id == 'sdk':
