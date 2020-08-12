@@ -1814,6 +1814,8 @@ class Tool(object):
   # tool is not available.
   def can_be_installed(self):
     if hasattr(self, 'bitness'):
+      print("****XXX***")
+      print(self.bitness)
       if self.bitness == 64 and not is_os_64bit():
         return "this tool is only provided for 64-bit OSes"
 
@@ -2024,6 +2026,8 @@ def find_sdk(name):
 def is_os_64bit():
   # http://stackoverflow.com/questions/2208828/detect-64bit-os-windows-in-python
   # return platform.machine().endswith('64')
+  print("****XXXX****")
+  print(platform.architecture()[0] == "64bit")
   return platform.architecture()[0] == "64bit"
 
 
